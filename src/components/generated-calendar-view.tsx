@@ -7,6 +7,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use client";
 
+import { Fragment } from "react";
 import { motion } from "framer-motion";
 import {
   VideoCallDialog,
@@ -99,6 +100,17 @@ interface GeneratedUIProps {
   };
 }
 
+// Helper function to format time
+const formatTime = (dateString: string) => {
+  const date = new Date(dateString);
+  const hours = date.getUTCHours();
+  const minutes = date.getUTCMinutes();
+  const ampm = hours >= 12 ? "PM" : "AM";
+  const formattedHours = hours % 12 || 12;
+  const formattedMinutes = minutes.toString().padStart(2, "0");
+  return `${formattedHours}:${formattedMinutes} ${ampm}`;
+};
+
 export function GeneratedCalendarView({
   calendarData,
   generatedComponents,
@@ -112,22 +124,13 @@ export function GeneratedCalendarView({
     return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
   });
 
-  // Helper function to format time
-  const formatTime = (dateString: string) => {
-    return new Date(dateString).toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    });
-  };
-
   return (
     <div className="grid grid-cols-12 gap-8 p-8">
       {/* Timeline Column */}
       <div className="col-span-4 lg:col-span-3">
         <div className="sticky top-6">
           <h2 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
-            Today's Schedule
+            Today&apos;s Schedule
           </h2>
           <div className="relative space-y-6">
             {/* Timeline line */}
@@ -140,31 +143,30 @@ export function GeneratedCalendarView({
                 transition={{ delay: index * 0.1 }}
                 className="relative rounded-xl border border-border bg-card p-4 shadow-sm transition-all duration-300 hover:border-primary/50 hover:shadow-md dark:shadow-none dark:hover:shadow-lg dark:hover:shadow-primary/5"
               >
-                <div className="flex items-start gap-4">
+                <div className="flex items-center gap-4">
                   <div className="flex flex-col items-center">
                     <div className="relative z-10 text-sm font-medium text-muted-foreground">
                       {formatTime(event.startTime)}
                     </div>
-                    <div className="my-2 h-full w-[2px] rounded-full bg-border/30 dark:bg-border/20"></div>
+                    <div className="my-2 h-[20px] w-[2px] rounded-full bg-border/30 dark:bg-border/20"></div>
                     <div className="relative z-10 text-sm font-medium text-muted-foreground">
                       {formatTime(event.endTime)}
                     </div>
                   </div>
-                  <div className="flex-1 pt-1">
-                    <div className="text-base font-semibold text-card-foreground">
-                      {event.title}
-                    </div>
-                    <div className="mt-1 text-sm text-muted-foreground">
-                      {event.notes}
-                    </div>
-                    {event.location && (
-                      <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
-                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-background/80">
-                          📍
-                        </div>
-                        {event.location}
+                  <div className="flex min-h-[4rem] flex-1 items-center">
+                    <div>
+                      <div className="text-base font-semibold text-card-foreground">
+                        {event.title}
                       </div>
-                    )}
+                      {event.location && (
+                        <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
+                          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-background/80">
+                            📍
+                          </div>
+                          {event.location}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -178,18 +180,30 @@ export function GeneratedCalendarView({
         <div className="grid auto-rows-[180px] grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {/* Event Cards */}
           {sortedEvents.map((event, index) => {
-            // Weather cards
-            if (event.location && !event.flight && !event.restaurant) {
+            // Show weather card alongside outdoor activities
+            const isOutdoorActivity =
+              event.workout?.type?.toLowerCase().includes("yoga") ??
+              event.workout?.type?.toLowerCase().includes("run") ??
+              event.workout?.type?.toLowerCase().includes("outdoor");
+
+            if (isOutdoorActivity && event.location) {
               return (
-                <motion.div
-                  key={`weather-${index}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  <div className="h-full">
+                <Fragment key={`event-group-${index}`}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <div className="h-full">{RenderEventCard({ event })}</div>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="h-[180px]"
+                  >
                     <WeatherComponent location={event.location} />
-                  </div>
-                </motion.div>
+                  </motion.div>
+                </Fragment>
               );
             }
 
@@ -383,19 +397,36 @@ function WorkshopCard({ workshop }: { workshop: WorkshopInfo }) {
                 />
               </svg>
             </div>
-            <div className="font-medium text-foreground">
-              Workshop Materials
-            </div>
-          </div>
-        </div>
-
-        <div className="mb-2 text-sm text-muted-foreground">
-          <div className="flex items-center gap-1">
-            <span>📚</span> {workshop.materials.length} materials required
+            <div className="font-medium text-foreground">Workshop</div>
           </div>
           {workshop.facilitator && (
-            <div className="mt-1 flex items-center gap-1">
-              <span>👤</span> {workshop.facilitator}
+            <div className="inline-flex h-5 items-center whitespace-nowrap rounded-full bg-cyan-500/10 px-2 text-xs font-medium text-cyan-500 dark:bg-cyan-400/10 dark:text-cyan-400">
+              {workshop.facilitator}
+            </div>
+          )}
+        </div>
+
+        <div className="mb-2 space-y-2 overflow-hidden text-sm text-muted-foreground">
+          {workshop.materials.length > 0 && (
+            <div className="flex items-center gap-1">
+              <span>📚</span> {workshop.materials.length} materials
+            </div>
+          )}
+          {workshop.tools && workshop.tools.length > 0 && (
+            <div className="flex flex-wrap gap-1">
+              {workshop.tools.slice(0, 3).map((tool, index) => (
+                <span
+                  key={index}
+                  className="inline-flex h-5 items-center whitespace-nowrap rounded-full bg-cyan-500/5 px-2 text-xs dark:bg-cyan-400/5"
+                >
+                  {tool}
+                </span>
+              ))}
+              {workshop.tools.length > 3 && (
+                <span className="inline-flex h-5 items-center whitespace-nowrap rounded-full bg-cyan-500/5 px-2 text-xs dark:bg-cyan-400/5">
+                  +{workshop.tools.length - 3} more
+                </span>
+              )}
             </div>
           )}
         </div>
@@ -611,6 +642,7 @@ function FlightCard({
   );
 }
 
+// Update WeatherComponent
 function WeatherComponent({ location }: { location: string }) {
   // Mock weather data - in a real app, this would come from a weather API
   const mockWeather = {
@@ -626,10 +658,10 @@ function WeatherComponent({ location }: { location: string }) {
   const isHot = parseInt(mockWeather.temperature) > 85;
 
   return (
-    <div className="relative h-full overflow-hidden rounded-xl bg-gradient-to-br from-sky-400/10 via-sky-500/10 to-sky-600/10 p-5 shadow-sm transition-all duration-300 hover:shadow-md dark:from-sky-400/5 dark:via-sky-500/5 dark:to-sky-600/5 dark:hover:shadow-sky-500/5">
+    <div className="relative h-full overflow-hidden rounded-xl bg-gradient-to-br from-sky-400/10 via-sky-500/10 to-sky-600/10 p-4 shadow-sm transition-all duration-300 hover:shadow-md dark:from-sky-400/5 dark:via-sky-500/5 dark:to-sky-600/5 dark:hover:shadow-sky-500/5">
       <div className="bg-grid-slate-100 dark:bg-grid-slate-700/25 absolute inset-0 [mask-image:linear-gradient(0deg,transparent,black)]"></div>
-      <div className="relative">
-        <div className="mb-4 flex items-center justify-between">
+      <div className="relative flex h-full flex-col">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-sky-500/10 dark:bg-sky-400/10">
               <svg
@@ -646,14 +678,7 @@ function WeatherComponent({ location }: { location: string }) {
                 />
               </svg>
             </div>
-            <span className="font-medium text-foreground">{location}</span>
-          </div>
-          <div className="text-sm text-muted-foreground">Now</div>
-        </div>
-
-        <div className="mb-6 flex items-center justify-between">
-          <div className="space-y-1">
-            <div className="flex items-baseline text-4xl font-bold tracking-tight text-foreground">
+            <div className="flex items-baseline text-2xl font-bold tracking-tight text-foreground">
               {mockWeather.temperature}
               <span className="ml-1 text-base font-normal text-muted-foreground">
                 • {mockWeather.condition}
@@ -662,66 +687,60 @@ function WeatherComponent({ location }: { location: string }) {
           </div>
         </div>
 
-        <div className="mb-6 grid grid-cols-3 gap-4">
-          <div className="flex flex-col items-center rounded-lg bg-sky-500/5 p-3 dark:bg-sky-400/5">
-            <div className="mb-1 text-lg text-sky-500 dark:text-sky-400">
-              💧
-            </div>
-            <div className="text-sm text-muted-foreground">Humidity</div>
-            <div className="font-medium text-foreground">
+        <div className="mt-4 grid grid-cols-3 gap-2">
+          <div className="flex flex-col items-center rounded-lg bg-sky-500/5 p-2 dark:bg-sky-400/5">
+            <div className="text-lg text-sky-500 dark:text-sky-400">💧</div>
+            <div className="text-xs text-muted-foreground">Humidity</div>
+            <div className="text-sm font-medium text-foreground">
               {mockWeather.humidity}
             </div>
           </div>
-          <div className="flex flex-col items-center rounded-lg bg-sky-500/5 p-3 dark:bg-sky-400/5">
-            <div className="mb-1 text-lg text-sky-500 dark:text-sky-400">
-              🌧️
-            </div>
-            <div className="text-sm text-muted-foreground">Rain</div>
-            <div className="font-medium text-foreground">
+          <div className="flex flex-col items-center rounded-lg bg-sky-500/5 p-2 dark:bg-sky-400/5">
+            <div className="text-lg text-sky-500 dark:text-sky-400">🌧️</div>
+            <div className="text-xs text-muted-foreground">Rain</div>
+            <div className="text-sm font-medium text-foreground">
               {mockWeather.precipitation}
             </div>
           </div>
-          <div className="flex flex-col items-center rounded-lg bg-sky-500/5 p-3 dark:bg-sky-400/5">
-            <div className="mb-1 text-lg text-sky-500 dark:text-sky-400">
-              💨
-            </div>
-            <div className="text-sm text-muted-foreground">Wind</div>
-            <div className="font-medium text-foreground">
+          <div className="flex flex-col items-center rounded-lg bg-sky-500/5 p-2 dark:bg-sky-400/5">
+            <div className="text-lg text-sky-500 dark:text-sky-400">💨</div>
+            <div className="text-xs text-muted-foreground">Wind</div>
+            <div className="text-sm font-medium text-foreground">
               {mockWeather.wind}
             </div>
           </div>
         </div>
 
         {(shouldTakeUmbrella || isWindy || isHot) && (
-          <div className="space-y-2 rounded-lg bg-sky-500/5 p-4 dark:bg-sky-400/5">
-            <div className="text-sm font-medium text-foreground">
-              Recommendations
-            </div>
-            <div className="space-y-2 text-sm text-muted-foreground">
-              {shouldTakeUmbrella && (
-                <div className="flex items-center gap-2">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-sky-500/10 dark:bg-sky-400/10">
-                    ☔️
+          <div className="mt-auto">
+            <div className="rounded-lg bg-sky-500/5 p-2 dark:bg-sky-400/5">
+              <div className="text-xs font-medium text-foreground">Tips</div>
+              <div className="space-y-1 text-xs text-muted-foreground">
+                {shouldTakeUmbrella && (
+                  <div className="flex items-center gap-2">
+                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/10 dark:bg-sky-400/10">
+                      ☔️
+                    </div>
+                    <span>Take an umbrella</span>
                   </div>
-                  <span>Take an umbrella</span>
-                </div>
-              )}
-              {isWindy && (
-                <div className="flex items-center gap-2">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-sky-500/10 dark:bg-sky-400/10">
-                    🧥
+                )}
+                {isWindy && (
+                  <div className="flex items-center gap-2">
+                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/10 dark:bg-sky-400/10">
+                      🧥
+                    </div>
+                    <span>Wear a windbreaker</span>
                   </div>
-                  <span>Wear a windbreaker</span>
-                </div>
-              )}
-              {isHot && (
-                <div className="flex items-center gap-2">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-sky-500/10 dark:bg-sky-400/10">
-                    🧴
+                )}
+                {isHot && (
+                  <div className="flex items-center gap-2">
+                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/10 dark:bg-sky-400/10">
+                      🧴
+                    </div>
+                    <span>Don&apos;t forget sunscreen</span>
                   </div>
-                  <span>Don't forget sunscreen</span>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
         )}

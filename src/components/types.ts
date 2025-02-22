@@ -4,6 +4,7 @@ export interface VideoCallInfo {
   meetingId: string;
   passcode: string;
   joinBeforeHost: boolean;
+  agenda?: string[];
 }
 
 export interface WorkoutInfo {
@@ -63,11 +64,10 @@ export interface MedicalInfo {
 }
 
 export interface PresentationInfo {
-  file: string;
-  slides: number;
+  content: string[];
+  audience: string;
   duration: string;
-  sharedWith: string[];
-  requiredMaterials: string[];
+  materials: string[];
 }
 
 export interface WorkshopInfo {
