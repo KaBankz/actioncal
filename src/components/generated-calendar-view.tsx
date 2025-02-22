@@ -124,101 +124,177 @@ export function GeneratedCalendarView({
     return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
   });
 
+  // Get weather tips for outdoor activities
+  const weatherTips = sortedEvents
+    .filter(
+      (event) =>
+        event.workout?.type?.toLowerCase().includes("yoga") ||
+        event.workout?.type?.toLowerCase().includes("run") ||
+        event.workout?.type?.toLowerCase().includes("outdoor"),
+    )
+    .map((event) => ({
+      time: formatTime(event.startTime),
+      activity: event.title,
+      location: event.location,
+      tips: getWeatherTips(event.location ?? ""),
+    }));
+
   return (
-    <div className="grid grid-cols-12 gap-8 p-8">
-      {/* Timeline Column */}
-      <div className="col-span-4 lg:col-span-3">
-        <div className="sticky top-6">
-          <h2 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
-            Today&apos;s Schedule
-          </h2>
-          <div className="relative space-y-6">
-            {/* Timeline line */}
-            <div className="absolute left-[19px] top-0 h-full w-[2px] rounded-full bg-border/30 dark:bg-border/20"></div>
-            {sortedEvents.map((event, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="relative rounded-xl border border-border bg-card p-4 shadow-sm transition-all duration-300 hover:border-primary/50 hover:shadow-md dark:shadow-none dark:hover:shadow-lg dark:hover:shadow-primary/5"
+    <div className="space-y-8 p-8">
+      {sortedEvents.length > 0 && (
+        <div className="rounded-xl border border-border bg-card/50 p-4 dark:border-border/50 dark:bg-card/10">
+          <div className="mb-3 flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 dark:bg-primary/20">
+              <svg
+                className="h-5 w-5 text-primary dark:text-primary"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <div className="flex items-center gap-4">
-                  <div className="flex flex-col items-center">
-                    <div className="relative z-10 text-sm font-medium text-muted-foreground">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+            <div className="font-medium text-foreground dark:text-foreground">
+              Today's Tips
+            </div>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {sortedEvents.map((event, index) => {
+              const tips = getEventTips(event);
+              if (tips.length === 0) return null;
+
+              return (
+                <div
+                  key={`tips-${index}`}
+                  className="rounded-lg bg-primary/5 p-3 dark:bg-primary/10"
+                >
+                  <div className="mb-2 flex items-center justify-between">
+                    <div className="font-medium text-foreground dark:text-foreground">
+                      {event.title}
+                    </div>
+                    <div className="text-sm text-muted-foreground dark:text-muted-foreground">
                       {formatTime(event.startTime)}
                     </div>
-                    <div className="my-2 h-[20px] w-[2px] rounded-full bg-border/30 dark:bg-border/20"></div>
-                    <div className="relative z-10 text-sm font-medium text-muted-foreground">
-                      {formatTime(event.endTime)}
-                    </div>
                   </div>
-                  <div className="flex min-h-[4rem] flex-1 items-center">
-                    <div>
-                      <div className="text-base font-semibold text-card-foreground">
-                        {event.title}
-                      </div>
-                      {event.location && (
-                        <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
-                          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-background/80">
-                            📍
-                          </div>
-                          {event.location}
+                  <div className="space-y-1 text-sm">
+                    {tips.map((tip, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-sm dark:bg-primary/20">
+                          {tip.icon}
                         </div>
-                      )}
-                    </div>
+                        <span className="text-muted-foreground dark:text-muted-foreground">
+                          {tip.text}
+                        </span>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
-      </div>
+      )}
 
-      {/* Grid Layout */}
-      <div className="col-span-8 lg:col-span-9">
-        <div className="grid auto-rows-[180px] grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {/* Event Cards */}
-          {sortedEvents.map((event, index) => {
-            // Show weather card alongside outdoor activities
-            const isOutdoorActivity =
-              event.workout?.type?.toLowerCase().includes("yoga") ??
-              event.workout?.type?.toLowerCase().includes("run") ??
-              event.workout?.type?.toLowerCase().includes("outdoor");
+      <div className="grid grid-cols-12 gap-8">
+        {/* Timeline Column */}
+        <div className="col-span-4 lg:col-span-3">
+          <div className="sticky top-6">
+            <h2 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
+              Today&apos;s Schedule
+            </h2>
+            <div className="relative space-y-6">
+              {/* Timeline line */}
+              <div className="absolute left-[19px] top-0 h-full w-[2px] rounded-full bg-border/30 dark:bg-border/20"></div>
+              {sortedEvents.map((event, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="relative rounded-xl border border-border bg-card p-4 shadow-sm transition-all duration-300 hover:border-primary/50 hover:shadow-md dark:shadow-none dark:hover:shadow-lg dark:hover:shadow-primary/5"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="flex flex-col items-center">
+                      <div className="relative z-10 text-sm font-medium text-muted-foreground">
+                        {formatTime(event.startTime)}
+                      </div>
+                      <div className="my-2 h-[20px] w-[2px] rounded-full bg-border/30 dark:bg-border/20"></div>
+                      <div className="relative z-10 text-sm font-medium text-muted-foreground">
+                        {formatTime(event.endTime)}
+                      </div>
+                    </div>
+                    <div className="flex min-h-[4rem] flex-1 items-center">
+                      <div>
+                        <div className="text-base font-semibold text-card-foreground">
+                          {event.title}
+                        </div>
+                        {event.location && (
+                          <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
+                            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-background/80">
+                              📍
+                            </div>
+                            {event.location}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
 
-            if (isOutdoorActivity && event.location) {
+        {/* Grid Layout */}
+        <div className="col-span-8 lg:col-span-9">
+          <div className="grid auto-rows-[180px] grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {/* Event Cards */}
+            {sortedEvents.map((event, index) => {
+              // Show weather card alongside outdoor activities
+              const isOutdoorActivity =
+                event.workout?.type?.toLowerCase().includes("yoga") ??
+                event.workout?.type?.toLowerCase().includes("run") ??
+                event.workout?.type?.toLowerCase().includes("outdoor");
+
+              if (isOutdoorActivity && event.location) {
+                return (
+                  <Fragment key={`event-group-${index}`}>
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      <div className="h-full">{RenderEventCard({ event })}</div>
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="h-[180px]"
+                    >
+                      <WeatherComponent location={event.location} />
+                    </motion.div>
+                  </Fragment>
+                );
+              }
+
               return (
-                <Fragment key={`event-group-${index}`}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <div className="h-full">{RenderEventCard({ event })}</div>
-                  </motion.div>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="h-[180px]"
-                  >
-                    <WeatherComponent location={event.location} />
-                  </motion.div>
-                </Fragment>
+                <motion.div
+                  key={`event-${index}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className={event.flight ? "lg:col-span-2" : undefined}
+                >
+                  <div className="h-full">{RenderEventCard({ event })}</div>
+                </motion.div>
               );
-            }
-
-            return (
-              <motion.div
-                key={`event-${index}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className={event.flight ? "lg:col-span-2" : undefined}
-              >
-                <div className="h-full">{RenderEventCard({ event })}</div>
-              </motion.div>
-            );
-          })}
+            })}
+          </div>
         </div>
       </div>
     </div>
@@ -653,10 +729,6 @@ function WeatherComponent({ location }: { location: string }) {
     wind: "8 mph",
   };
 
-  const shouldTakeUmbrella = parseInt(mockWeather.precipitation) > 30;
-  const isWindy = parseInt(mockWeather.wind) > 15;
-  const isHot = parseInt(mockWeather.temperature) > 85;
-
   return (
     <div className="relative h-full overflow-hidden rounded-xl bg-gradient-to-br from-sky-400/10 via-sky-500/10 to-sky-600/10 p-4 shadow-sm transition-all duration-300 hover:shadow-md dark:from-sky-400/5 dark:via-sky-500/5 dark:to-sky-600/5 dark:hover:shadow-sky-500/5">
       <div className="bg-grid-slate-100 dark:bg-grid-slate-700/25 absolute inset-0 [mask-image:linear-gradient(0deg,transparent,black)]"></div>
@@ -710,40 +782,6 @@ function WeatherComponent({ location }: { location: string }) {
             </div>
           </div>
         </div>
-
-        {(shouldTakeUmbrella || isWindy || isHot) && (
-          <div className="mt-auto">
-            <div className="rounded-lg bg-sky-500/5 p-2 dark:bg-sky-400/5">
-              <div className="text-xs font-medium text-foreground">Tips</div>
-              <div className="space-y-1 text-xs text-muted-foreground">
-                {shouldTakeUmbrella && (
-                  <div className="flex items-center gap-2">
-                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/10 dark:bg-sky-400/10">
-                      ☔️
-                    </div>
-                    <span>Take an umbrella</span>
-                  </div>
-                )}
-                {isWindy && (
-                  <div className="flex items-center gap-2">
-                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/10 dark:bg-sky-400/10">
-                      🧥
-                    </div>
-                    <span>Wear a windbreaker</span>
-                  </div>
-                )}
-                {isHot && (
-                  <div className="flex items-center gap-2">
-                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/10 dark:bg-sky-400/10">
-                      🧴
-                    </div>
-                    <span>Don&apos;t forget sunscreen</span>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
@@ -1001,4 +1039,112 @@ function RenderEventCard({
       )}
     </div>
   );
+}
+
+// Helper function to get weather tips
+function getWeatherTips(location: string) {
+  // Mock weather data - in a real app, this would come from a weather API
+  const mockWeather = {
+    temperature: "72°F",
+    condition: "Partly Cloudy",
+    precipitation: "60%",
+    humidity: "65%",
+    wind: "8 mph",
+  };
+
+  const shouldTakeUmbrella = parseInt(mockWeather.precipitation) > 30;
+  const isWindy = parseInt(mockWeather.wind) > 15;
+  const isHot = parseInt(mockWeather.temperature) > 85;
+
+  const tips = [];
+
+  if (shouldTakeUmbrella) {
+    tips.push({ icon: "☔️", text: "Take an umbrella" });
+  }
+  if (isWindy) {
+    tips.push({ icon: "🧥", text: "Wear a windbreaker" });
+  }
+  if (isHot) {
+    tips.push({ icon: "🧴", text: "Don't forget sunscreen" });
+  }
+
+  return tips;
+}
+
+// Helper function to get event tips
+function getEventTips(event: GeneratedUIProps["calendarData"]["events"][0]) {
+  const tips = [];
+
+  // Weather tips for outdoor activities
+  if (
+    event.workout?.type?.toLowerCase().includes("yoga") ??
+    event.workout?.type?.toLowerCase().includes("run") ??
+    event.workout?.type?.toLowerCase().includes("outdoor")
+  ) {
+    if (event.workout?.weather) {
+      const temp = parseInt(event.workout.weather.temperature);
+      const isHot = temp > 85;
+      const isRainy = event.workout.weather.condition
+        .toLowerCase()
+        .includes("rain");
+      const isWindy = event.workout.weather.condition
+        .toLowerCase()
+        .includes("wind");
+
+      if (isHot)
+        tips.push({ icon: "🌡️", text: "High temperature - stay hydrated" });
+      if (isRainy)
+        tips.push({ icon: "☔️", text: "Rain expected - bring protection" });
+      if (isWindy)
+        tips.push({
+          icon: "💨",
+          text: "Windy conditions - wear appropriate gear",
+        });
+    }
+  }
+
+  // Meeting preparation tips
+  if (event.videoCall) {
+    tips.push({ icon: "🎥", text: "Test your camera and mic before the call" });
+    if (event.videoCall.agenda?.length > 0) {
+      tips.push({ icon: "📝", text: "Review meeting agenda" });
+    }
+  }
+
+  // Workshop preparation tips
+  if (event.workshop) {
+    if (event.workshop.prerequisites?.length > 0) {
+      tips.push({ icon: "📚", text: "Complete workshop prerequisites" });
+    }
+    if (event.workshop.materials?.length > 0) {
+      tips.push({ icon: "🛠️", text: "Gather required workshop materials" });
+    }
+  }
+
+  // Restaurant tips
+  if (event.restaurant) {
+    if (event.restaurant.reservation) {
+      tips.push({
+        icon: "🕒",
+        text: `Reservation at ${event.restaurant.reservation.time}`,
+      });
+    }
+    if (event.restaurant.dietaryOptions?.length > 0) {
+      tips.push({ icon: "🍽️", text: "Special dietary options available" });
+    }
+  }
+
+  // Flight tips
+  if (event.flight) {
+    tips.push({
+      icon: "✈️",
+      text: `Check in for ${event.flight.airline} ${event.flight.flightNumber}`,
+    });
+    tips.push({
+      icon: "🎫",
+      text: `Boarding pass: Gate ${event.flight.departure.gate}`,
+    });
+  }
+
+  return tips;
 }
