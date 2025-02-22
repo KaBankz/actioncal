@@ -573,7 +573,7 @@ export default function DashboardPage() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="mb-8 text-3xl font-bold">Your AI-Optimized Calendar</h1>
+      <h1 className="mb-8 text-3xl font-bold">ActionCal</h1>
 
       {calendarEvents.length === 0 ? (
         <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 text-gray-700">
