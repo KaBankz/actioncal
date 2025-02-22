@@ -17,7 +17,7 @@ export async function GET(request: Request) {
 
     const content = await fs.readFile(CREDENTIALS_PATH, { encoding: 'utf-8' });
     const credentials = JSON.parse(content);
-    const { client_secret, client_id, redirect_uris } = credentials.installed;
+    const { client_secret, client_id, redirect_uris } = credentials.web;
 
     const oauth2Client = new google.auth.OAuth2(
       client_id,
