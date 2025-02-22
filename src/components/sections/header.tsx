@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -60,7 +61,7 @@ export function Header() {
             delay: isInitialLoad ? 0.5 : 0,
             ease: easeInOutCubic,
           }}
-          className={cn("bg-background/60 sticky top-0 z-50 p-0 backdrop-blur")}
+          className={cn("sticky top-0 z-50 bg-background/60 p-0 backdrop-blur")}
         >
           <div className="container mx-auto flex items-center justify-between px-6 py-4">
             <Link
@@ -68,13 +69,6 @@ export function Header() {
               title="brand-logo"
               className="relative mr-8 flex items-center space-x-4"
             >
-              {/* <Image
-                src="/logo.png"
-                alt="Logo"
-                width={32}
-                height={32}
-                className="w-auto h-auto"
-              /> */}
               <span className="text-2xl font-bold">{siteConfig.name}</span>
             </Link>
             <div className="hidden lg:block">
@@ -82,7 +76,7 @@ export function Header() {
                 href="#"
                 className={cn(
                   buttonVariants({ variant: "default" }),
-                  "group h-12 rounded-full px-8 text-lg text-white",
+                  "group h-12 rounded-full px-8 text-lg text-primary-foreground",
                 )}
               >
                 {siteConfig.ctaSeller}

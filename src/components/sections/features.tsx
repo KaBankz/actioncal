@@ -27,9 +27,29 @@ export function Features() {
       ),
     },
     {
+      title: "Contextual Video Suggestions",
+      description:
+        "Get AI-powered video recommendations for each event type - from workout routines to meeting preparations and technical tutorials.",
+      icon: (
+        <svg
+          className="h-8 w-8"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+          />
+        </svg>
+      ),
+    },
+    {
       title: "Adaptive Interface",
       description:
-        "Your calendar interface transforms throughout the day, highlighting what matters most right now and adapting to your current context.",
+        "Your calendar interface transforms throughout the day, highlighting what matters most right now with contextual information and smart recommendations.",
       icon: (
         <svg
           className="h-8 w-8"
@@ -66,6 +86,46 @@ export function Features() {
         </svg>
       ),
     },
+    {
+      title: "Smart Event Cards",
+      description:
+        "Each event gets its own intelligent card with contextual information, weather updates, travel times, and relevant recommendations.",
+      icon: (
+        <svg
+          className="h-8 w-8"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+          />
+        </svg>
+      ),
+    },
+    {
+      title: "Real-time Weather Integration",
+      description:
+        "Get location-based weather forecasts and smart recommendations for your outdoor activities and travel plans.",
+      icon: (
+        <svg
+          className="h-8 w-8"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+          />
+        </svg>
+      ),
+    },
   ];
 
   return (
@@ -81,7 +141,7 @@ export function Features() {
           <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
             Your Calendar, Reimagined
           </h2>
-          <p className="text-muted-foreground mt-4 text-xl">
+          <p className="mt-4 text-xl text-muted-foreground">
             Experience a calendar that adapts to you, not the other way around
           </p>
         </motion.div>
@@ -96,12 +156,12 @@ export function Features() {
               transition={{ duration: 0.8, delay: index * 0.2 }}
               className="relative"
             >
-              <div className="bg-primary/10 text-primary absolute -left-2 -top-2 rounded-lg p-3">
+              <div className="absolute -left-2 -top-2 rounded-lg bg-primary/10 p-3 text-primary">
                 {feature.icon}
               </div>
-              <div className="bg-card border-border mt-8 rounded-xl border p-6">
+              <div className="mt-8 rounded-xl border border-border bg-card p-6">
                 <h3 className="text-xl font-semibold">{feature.title}</h3>
-                <p className="text-muted-foreground mt-2">
+                <p className="mt-2 text-muted-foreground">
                   {feature.description}
                 </p>
               </div>

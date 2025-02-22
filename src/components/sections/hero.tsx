@@ -43,7 +43,7 @@ export function Hero() {
             className="mb-8 text-6xl font-bold tracking-tighter sm:text-7xl lg:text-8xl"
           >
             Your Calendar,{" "}
-            <span className="from-primary bg-gradient-to-r to-purple-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary to-purple-400 bg-clip-text text-transparent">
               Supercharged with AI
             </span>
           </motion.h1>
@@ -51,7 +51,7 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.7, ease: easeInOutCubic }}
-            className="text-muted-foreground mx-auto mb-12 max-w-3xl text-balance text-2xl font-medium sm:text-3xl"
+            className="mx-auto mb-12 max-w-3xl text-balance text-2xl font-medium text-muted-foreground sm:text-3xl"
           >
             Stop managing your calendar. Let AI optimize your day, automate your
             scheduling, and help you get more done.
@@ -65,7 +65,7 @@ export function Hero() {
           >
             <a
               href="#"
-              className="bg-primary hover:bg-primary/90 group inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-xl font-semibold text-white transition-all"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-4 text-xl font-semibold text-primary-foreground transition-all hover:bg-primary/90"
             >
               Get Started Free
               <svg
@@ -84,7 +84,7 @@ export function Hero() {
             </a>
             <a
               href="#"
-              className="border-border bg-background hover:bg-muted inline-flex items-center justify-center gap-2 rounded-full border px-8 py-4 text-xl font-semibold transition-colors"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background px-8 py-4 text-xl font-semibold transition-colors hover:bg-muted"
             >
               Watch Demo
               <svg
@@ -113,17 +113,17 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="bg-muted relative mx-auto max-w-6xl rounded-2xl p-2 shadow-2xl"
+            className="relative mx-auto max-w-6xl rounded-2xl bg-muted p-2 shadow-2xl"
           >
             <Image
-              src="/calendar-preview.png"
+              src="/safari-landing.png"
               alt="AI Calendar Interface"
               width={1200}
               height={675}
               className="rounded-xl"
               priority
             />
-            <div className="bg-muted text-muted-foreground absolute -top-4 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-sm font-medium">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-muted px-4 py-1 text-sm font-medium text-muted-foreground">
               AI-Powered Calendar Interface
             </div>
           </motion.div>

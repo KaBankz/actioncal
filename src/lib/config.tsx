@@ -14,13 +14,13 @@ import {
 export const BLUR_FADE_DELAY = 0.15;
 
 export const siteConfig = {
-  name: "My Model",
+  name: "ActionCal",
   description: "The ethical marketplace for high-quality user data",
   ctaSeller: "Get Shit Done",
   ctaBuyer: "Access Quality Data",
   url: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
   keywords: [
-    "My Model",
+    "ActionCal",
     "Data marketplace",
     "Ethical data",
     "Data monetization",
@@ -28,11 +28,11 @@ export const siteConfig = {
     "Data privacy",
   ],
   links: {
-    email: "support@mymodel.com",
-    twitter: "https://twitter.com/mymodel",
-    discord: "https://discord.gg/mymodel",
-    github: "https://github.com/mymodel",
-    instagram: "https://instagram.com/mymodel",
+    email: "support@actioncal.com",
+    twitter: "https://twitter.com/actioncal",
+    discord: "https://discord.gg/actioncal",
+    github: "https://github.com/actioncal",
+    instagram: "https://instagram.com/actioncal",
   },
   features: [
     {

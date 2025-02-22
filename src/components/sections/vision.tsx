@@ -16,12 +16,13 @@ export function Vision() {
           className="text-center"
         >
           <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
-            Your Day, <span className="text-primary">Optimized</span>
+            Your Day,{" "}
+            <span className="text-primary">Intelligently Organized</span>
           </h2>
-          <p className="text-muted-foreground mx-auto mt-4 max-w-3xl text-xl">
-            Watch your calendar transform throughout the day with contextual
-            views and AI-powered insights that help you stay focused on what
-            matters most.
+          <p className="mx-auto mt-4 max-w-3xl text-xl text-muted-foreground">
+            Experience a calendar that learns from your habits, anticipates your
+            needs, and provides smart recommendations to make every day more
+            productive.
           </p>
         </motion.div>
 
@@ -33,17 +34,19 @@ export function Vision() {
             transition={{ duration: 0.8 }}
             className="flex flex-col justify-center"
           >
-            <h3 className="text-3xl font-bold">Morning Focus</h3>
-            <p className="text-muted-foreground mt-4">
-              Start your day with a clear view of your most important tasks. AI
-              analyzes your calendar patterns to protect your peak productivity
-              hours and automatically blocks focus time.
+            <h3 className="text-3xl font-bold">AI-Powered Insights</h3>
+            <p className="mt-4 text-muted-foreground">
+              Our AI analyzes your calendar patterns to optimize your schedule,
+              protect your focus time, and provide contextual recommendations
+              for every event - from meeting preparations to workout routines.
             </p>
             <ul className="mt-8 space-y-4">
               {[
-                "Intelligent meeting scheduling around your focus periods",
-                "Context-aware task prioritization",
-                "Automated buffer time for deep work",
+                "Smart scheduling that respects your focus time",
+                "Contextual video suggestions for better preparation",
+                "Real-time weather updates and travel recommendations",
+                "Intelligent event cards with relevant information",
+                "Automated meeting scheduling and coordination",
               ].map((item, index) => (
                 <motion.li
                   key={item}
@@ -54,7 +57,7 @@ export function Vision() {
                   className="flex items-center gap-3"
                 >
                   <svg
-                    className="text-primary h-5 w-5"
+                    className="h-5 w-5 text-primary"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -79,10 +82,10 @@ export function Vision() {
             transition={{ duration: 0.8 }}
             className="relative"
           >
-            <div className="from-primary/10 absolute inset-0 rounded-2xl bg-gradient-to-r to-purple-400/10" />
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/10 to-purple-400/10" />
             <Image
               src="/morning-focus.png"
-              alt="Morning Focus Interface"
+              alt="AI Calendar Interface"
               width={600}
               height={400}
               className="relative rounded-xl shadow-2xl"
@@ -97,14 +100,16 @@ export function Vision() {
           transition={{ duration: 0.8 }}
           className="mt-32 rounded-2xl bg-black p-8 text-center text-white dark:bg-white dark:text-black"
         >
-          <h3 className="text-3xl font-bold">Ready to transform your day?</h3>
+          <h3 className="text-3xl font-bold">
+            Ready to transform your calendar?
+          </h3>
           <p className="mx-auto mt-4 max-w-2xl text-lg opacity-90">
-            Join thousands of professionals who are already using AI to optimize
-            their calendar and boost their productivity.
+            Join thousands of professionals who are using AI to optimize their
+            schedule, boost productivity, and make better use of their time.
           </p>
           <a
             href="#"
-            className="bg-primary hover:bg-primary/90 mt-8 inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-xl font-semibold text-white transition-all"
+            className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-4 text-xl font-semibold text-primary-foreground transition-all hover:bg-primary/90"
           >
             Get Started Free
             <svg
