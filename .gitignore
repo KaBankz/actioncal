@@ -1,7 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-credentials.json
 /node_modules
 /.pnp
 .pnp.js
@@ -45,3 +44,7 @@ yarn-error.log*
 
 # idea files
 .idea
+
+# credentials
+credentials.json
+token.json
