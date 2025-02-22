@@ -135,7 +135,7 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {selectedSchedule && generatedData && (
+      {!isLoading && selectedSchedule && generatedData && (
         <GeneratedCalendarView
           calendarData={
             mockSchedules[selectedSchedule as keyof typeof mockSchedules]
