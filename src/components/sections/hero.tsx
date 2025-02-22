@@ -64,7 +64,7 @@ export function Hero() {
             className="mb-12 flex flex-col items-center justify-center gap-6 sm:flex-row"
           >
             <a
-              href="#"
+              href="/dash"
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-4 text-xl font-semibold text-primary-foreground transition-all hover:bg-primary/90"
             >
               Get Started Free

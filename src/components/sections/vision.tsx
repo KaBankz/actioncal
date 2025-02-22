@@ -108,7 +108,7 @@ export function Vision() {
             schedule, boost productivity, and make better use of their time.
           </p>
           <a
-            href="#"
+            href="/dash"
             className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-4 text-xl font-semibold text-primary-foreground transition-all hover:bg-primary/90"
           >
             Get Started Free

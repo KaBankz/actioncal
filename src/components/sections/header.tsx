@@ -73,7 +73,7 @@ export function Header() {
             </Link>
             <div className="hidden lg:block">
               <Link
-                href="#"
+                href="/dash"
                 className={cn(
                   buttonVariants({ variant: "default" }),
                   "group h-12 rounded-full px-8 text-lg text-primary-foreground",
