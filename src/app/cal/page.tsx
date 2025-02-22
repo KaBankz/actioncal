@@ -47,6 +47,7 @@ export default function CalendarPage() {
         } else if (data.error) {
           setError(data.error);
         } else {
+          console.log(data);
           setFetchedEvents(data.events);
         }
       } catch (err) {
@@ -60,7 +61,9 @@ export default function CalendarPage() {
   }, []);
 
   // Transform the fetched CalendarEvent objects to the format expected by the generator.
-  const transformEvents = (calendarEvents: CalendarEvent[]): GeneratedEvent[] => {
+  const transformEvents = (
+    calendarEvents: CalendarEvent[],
+  ): GeneratedEvent[] => {
     return calendarEvents.map((event) => ({
       title: event.summary,
       startTime: event.start,
@@ -94,15 +97,15 @@ export default function CalendarPage() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-gray-900"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-red-500">Error: {error}</div>
       </div>
     );
@@ -135,7 +138,7 @@ export default function CalendarPage() {
               {transformEvents(fetchedEvents).map((event, index) => (
                 <div
                   key={index}
-                  className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                  className="rounded-lg border p-4 shadow-sm transition-shadow hover:shadow-md"
                 >
                   <div className="font-semibold">{event.title}</div>
                   <div className="text-sm text-gray-500">

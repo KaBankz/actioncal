@@ -126,40 +126,40 @@ export function GeneratedCalendarView({
       {/* Timeline Column */}
       <div className="col-span-4 lg:col-span-3">
         <div className="sticky top-6">
-          <h2 className="text-foreground mb-8 text-3xl font-bold tracking-tight">
+          <h2 className="mb-8 text-3xl font-bold tracking-tight text-foreground">
             Today's Schedule
           </h2>
           <div className="relative space-y-6">
             {/* Timeline line */}
-            <div className="bg-border/30 dark:bg-border/20 absolute left-[19px] top-0 h-full w-[2px] rounded-full"></div>
+            <div className="absolute left-[19px] top-0 h-full w-[2px] rounded-full bg-border/30 dark:bg-border/20"></div>
             {sortedEvents.map((event, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="border-border bg-card hover:border-primary/50 dark:hover:shadow-primary/5 relative rounded-xl border p-4 shadow-sm transition-all duration-300 hover:shadow-md dark:shadow-none dark:hover:shadow-lg"
+                className="relative rounded-xl border border-border bg-card p-4 shadow-sm transition-all duration-300 hover:border-primary/50 hover:shadow-md dark:shadow-none dark:hover:shadow-lg dark:hover:shadow-primary/5"
               >
                 <div className="flex items-start gap-4">
                   <div className="flex flex-col items-center">
-                    <div className="text-muted-foreground relative z-10 text-sm font-medium">
+                    <div className="relative z-10 text-sm font-medium text-muted-foreground">
                       {formatTime(event.startTime)}
                     </div>
-                    <div className="bg-border/30 dark:bg-border/20 my-2 h-full w-[2px] rounded-full"></div>
-                    <div className="text-muted-foreground relative z-10 text-sm font-medium">
+                    <div className="my-2 h-full w-[2px] rounded-full bg-border/30 dark:bg-border/20"></div>
+                    <div className="relative z-10 text-sm font-medium text-muted-foreground">
                       {formatTime(event.endTime)}
                     </div>
                   </div>
                   <div className="flex-1 pt-1">
-                    <div className="text-card-foreground text-base font-semibold">
+                    <div className="text-base font-semibold text-card-foreground">
                       {event.title}
                     </div>
-                    <div className="text-muted-foreground mt-1 text-sm">
+                    <div className="mt-1 text-sm text-muted-foreground">
                       {event.notes}
                     </div>
                     {event.location && (
-                      <div className="text-muted-foreground mt-2 flex items-center gap-2 text-sm">
-                        <div className="bg-background/80 flex h-6 w-6 items-center justify-center rounded-full">
+                      <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-background/80">
                           📍
                         </div>
                         {event.location}
@@ -224,7 +224,7 @@ function QuickActionButton({
           href={event.videoCall.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-primary/10 text-primary hover:bg-primary/20 dark:hover:bg-primary/15 flex w-full items-center justify-between rounded-lg px-4 py-2 text-sm font-medium"
+          className="flex w-full items-center justify-between rounded-lg bg-primary/10 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/20 dark:hover:bg-primary/15"
         >
           <span>Join {event.videoCall.platform}</span>
           <svg
@@ -245,7 +245,7 @@ function QuickActionButton({
     }
     if (event.workout) {
       return (
-        <button className="bg-primary/10 text-primary hover:bg-primary/20 dark:hover:bg-primary/15 flex w-full items-center justify-between rounded-lg px-4 py-2 text-sm font-medium">
+        <button className="flex w-full items-center justify-between rounded-lg bg-primary/10 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/20 dark:hover:bg-primary/15">
           <span>Start Workout</span>
           <svg
             className="h-4 w-4"
@@ -292,7 +292,7 @@ function VideoCallCard({ videoCall }: { videoCall: VideoCallInfo }) {
                 />
               </svg>
             </div>
-            <div className="text-foreground font-medium">
+            <div className="font-medium text-foreground">
               {videoCall.platform}
             </div>
           </div>
@@ -301,7 +301,7 @@ function VideoCallCard({ videoCall }: { videoCall: VideoCallInfo }) {
           </div>
         </div>
 
-        <div className="text-muted-foreground mb-4 text-sm">
+        <div className="mb-4 text-sm text-muted-foreground">
           Meeting ID: <span className="font-mono">{videoCall.meetingId}</span>
         </div>
 
@@ -336,14 +336,14 @@ function RestaurantCard({ restaurant }: { restaurant: RestaurantInfo }) {
                 />
               </svg>
             </div>
-            <div className="text-foreground font-medium">{restaurant.name}</div>
+            <div className="font-medium text-foreground">{restaurant.name}</div>
           </div>
           <div className="rounded-full bg-amber-500/10 px-2 py-1 text-xs font-medium text-amber-500 dark:bg-amber-400/10 dark:text-amber-400">
             {restaurant.reservation.time}
           </div>
         </div>
 
-        <div className="text-muted-foreground mb-2 text-sm">
+        <div className="mb-2 text-sm text-muted-foreground">
           <div className="flex items-center gap-1">
             <span>📍</span> {restaurant.address}
           </div>
@@ -383,13 +383,13 @@ function WorkshopCard({ workshop }: { workshop: WorkshopInfo }) {
                 />
               </svg>
             </div>
-            <div className="text-foreground font-medium">
+            <div className="font-medium text-foreground">
               Workshop Materials
             </div>
           </div>
         </div>
 
-        <div className="text-muted-foreground mb-2 text-sm">
+        <div className="mb-2 text-sm text-muted-foreground">
           <div className="flex items-center gap-1">
             <span>📚</span> {workshop.materials.length} materials required
           </div>
@@ -426,27 +426,27 @@ function SocialCard({ social }: { social: SocialInfo }) {
             d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
           />
         </svg>
-        <span className="text-foreground font-medium">{social.occasion}</span>
+        <span className="font-medium text-foreground">{social.occasion}</span>
       </div>
       <div className="space-y-3">
-        <div className="text-muted-foreground text-sm">
+        <div className="text-sm text-muted-foreground">
           <div>📍 {social.location}</div>
           <div>👥 {social.guests} guests</div>
         </div>
         <div className="space-y-2">
-          <div className="bg-background/50 rounded-md p-2">
-            <div className="text-foreground mb-1 text-sm font-medium">Menu</div>
-            <div className="text-muted-foreground space-y-1 text-sm">
+          <div className="rounded-md bg-background/50 p-2">
+            <div className="mb-1 text-sm font-medium text-foreground">Menu</div>
+            <div className="space-y-1 text-sm text-muted-foreground">
               {social.food.menu.map((item, index) => (
                 <div key={index}>• {item}</div>
               ))}
             </div>
           </div>
-          <div className="bg-background/50 rounded-md p-2">
-            <div className="text-foreground mb-1 text-sm font-medium">
+          <div className="rounded-md bg-background/50 p-2">
+            <div className="mb-1 text-sm font-medium text-foreground">
               To Bring
             </div>
-            <div className="text-muted-foreground space-y-1 text-sm">
+            <div className="space-y-1 text-sm text-muted-foreground">
               {social.gifts.map((gift, index) => (
                 <div key={index}>• {gift}</div>
               ))}
@@ -481,7 +481,7 @@ function MedicalCard({ medical }: { medical: MedicalInfo }) {
                 />
               </svg>
             </div>
-            <div className="text-foreground font-medium">
+            <div className="font-medium text-foreground">
               Dr. {medical.doctor}
             </div>
           </div>
@@ -490,7 +490,7 @@ function MedicalCard({ medical }: { medical: MedicalInfo }) {
           </div>
         </div>
 
-        <div className="text-muted-foreground mb-2 text-sm">
+        <div className="mb-2 text-sm text-muted-foreground">
           <div className="flex items-center gap-1">
             <span>🏥</span> {medical.clinic}
           </div>
@@ -543,7 +543,7 @@ function FlightCard({
                 />
               </svg>
             </div>
-            <div className="text-foreground font-medium">
+            <div className="font-medium text-foreground">
               {flight.airline} {flight.flightNumber}
             </div>
           </div>
@@ -554,10 +554,10 @@ function FlightCard({
 
         <div className="mb-3 grid grid-cols-[1fr,auto,1fr] items-center gap-3">
           <div>
-            <div className="text-foreground text-lg font-semibold">
+            <div className="text-lg font-semibold text-foreground">
               {flight.departure.airport}
             </div>
-            <div className="text-muted-foreground text-sm">
+            <div className="text-sm text-muted-foreground">
               Gate {flight.departure.gate}
             </div>
             <div className="mt-1 text-sm text-sky-500 dark:text-sky-400">
@@ -566,16 +566,16 @@ function FlightCard({
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="bg-border/30 dark:bg-border/20 h-[2px] w-12"></div>
+            <div className="h-[2px] w-12 bg-border/30 dark:bg-border/20"></div>
             <div className="text-sky-500 dark:text-sky-400">✈️</div>
-            <div className="bg-border/30 dark:bg-border/20 h-[2px] w-12"></div>
+            <div className="h-[2px] w-12 bg-border/30 dark:bg-border/20"></div>
           </div>
 
           <div className="text-right">
-            <div className="text-foreground text-lg font-semibold">
+            <div className="text-lg font-semibold text-foreground">
               {flight.arrival.airport}
             </div>
-            <div className="text-muted-foreground text-sm">
+            <div className="text-sm text-muted-foreground">
               Gate {flight.arrival.gate}
             </div>
             <div className="mt-1 text-sm text-sky-500 dark:text-sky-400">
@@ -588,20 +588,20 @@ function FlightCard({
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1">
               <span className="text-muted-foreground">Seat</span>
-              <span className="text-foreground font-medium">
+              <span className="font-medium text-foreground">
                 {flight.seatNumber}
               </span>
             </div>
             <div className="flex items-center gap-1">
               <span className="text-muted-foreground">Group</span>
-              <span className="text-foreground font-medium">
+              <span className="font-medium text-foreground">
                 {flight.boardingGroup}
               </span>
             </div>
           </div>
-          <div className="text-muted-foreground flex items-center gap-1">
+          <div className="flex items-center gap-1 text-muted-foreground">
             <span>Terminal</span>
-            <span className="text-foreground font-medium">
+            <span className="font-medium text-foreground">
               {flight.departure.terminal}
             </span>
           </div>
@@ -646,16 +646,16 @@ function WeatherComponent({ location }: { location: string }) {
                 />
               </svg>
             </div>
-            <span className="text-foreground font-medium">{location}</span>
+            <span className="font-medium text-foreground">{location}</span>
           </div>
-          <div className="text-muted-foreground text-sm">Now</div>
+          <div className="text-sm text-muted-foreground">Now</div>
         </div>
 
         <div className="mb-6 flex items-center justify-between">
           <div className="space-y-1">
-            <div className="text-foreground flex items-baseline text-4xl font-bold tracking-tight">
+            <div className="flex items-baseline text-4xl font-bold tracking-tight text-foreground">
               {mockWeather.temperature}
-              <span className="text-muted-foreground ml-1 text-base font-normal">
+              <span className="ml-1 text-base font-normal text-muted-foreground">
                 • {mockWeather.condition}
               </span>
             </div>
@@ -667,8 +667,8 @@ function WeatherComponent({ location }: { location: string }) {
             <div className="mb-1 text-lg text-sky-500 dark:text-sky-400">
               💧
             </div>
-            <div className="text-muted-foreground text-sm">Humidity</div>
-            <div className="text-foreground font-medium">
+            <div className="text-sm text-muted-foreground">Humidity</div>
+            <div className="font-medium text-foreground">
               {mockWeather.humidity}
             </div>
           </div>
@@ -676,8 +676,8 @@ function WeatherComponent({ location }: { location: string }) {
             <div className="mb-1 text-lg text-sky-500 dark:text-sky-400">
               🌧️
             </div>
-            <div className="text-muted-foreground text-sm">Rain</div>
-            <div className="text-foreground font-medium">
+            <div className="text-sm text-muted-foreground">Rain</div>
+            <div className="font-medium text-foreground">
               {mockWeather.precipitation}
             </div>
           </div>
@@ -685,8 +685,8 @@ function WeatherComponent({ location }: { location: string }) {
             <div className="mb-1 text-lg text-sky-500 dark:text-sky-400">
               💨
             </div>
-            <div className="text-muted-foreground text-sm">Wind</div>
-            <div className="text-foreground font-medium">
+            <div className="text-sm text-muted-foreground">Wind</div>
+            <div className="font-medium text-foreground">
               {mockWeather.wind}
             </div>
           </div>
@@ -694,10 +694,10 @@ function WeatherComponent({ location }: { location: string }) {
 
         {(shouldTakeUmbrella || isWindy || isHot) && (
           <div className="space-y-2 rounded-lg bg-sky-500/5 p-4 dark:bg-sky-400/5">
-            <div className="text-foreground text-sm font-medium">
+            <div className="text-sm font-medium text-foreground">
               Recommendations
             </div>
-            <div className="text-muted-foreground space-y-2 text-sm">
+            <div className="space-y-2 text-sm text-muted-foreground">
               {shouldTakeUmbrella && (
                 <div className="flex items-center gap-2">
                   <div className="flex h-6 w-6 items-center justify-center rounded-full bg-sky-500/10 dark:bg-sky-400/10">
@@ -753,7 +753,7 @@ function WorkoutCard({ workout }: { workout: WorkoutInfo }) {
                 />
               </svg>
             </div>
-            <div className="text-foreground font-medium">{workout.type}</div>
+            <div className="font-medium text-foreground">{workout.type}</div>
           </div>
           {workout.duration && (
             <div className="rounded-full bg-rose-500/10 px-2 py-1 text-xs font-medium text-rose-500 dark:bg-rose-400/10 dark:text-rose-400">
@@ -762,7 +762,7 @@ function WorkoutCard({ workout }: { workout: WorkoutInfo }) {
           )}
         </div>
 
-        <div className="text-muted-foreground mb-2 text-sm">
+        <div className="mb-2 text-sm text-muted-foreground">
           <div className="flex items-center gap-1">
             <span>📍</span> {workout.location}
           </div>
@@ -804,14 +804,14 @@ function DevelopmentCard({ development }: { development: DevelopmentInfo }) {
                 />
               </svg>
             </div>
-            <div className="text-foreground font-medium">Code Review</div>
+            <div className="font-medium text-foreground">Code Review</div>
           </div>
           <div className="rounded-full bg-violet-500/10 px-2 py-1 text-xs font-medium text-violet-500 dark:bg-violet-400/10 dark:text-violet-400">
             {development.deployment.environment}
           </div>
         </div>
 
-        <div className="text-muted-foreground mb-2 text-sm">
+        <div className="mb-2 text-sm text-muted-foreground">
           <div className="font-mono">{development.pullRequest}</div>
           <div
             className={`mt-1 grid items-center gap-2 ${
@@ -863,14 +863,14 @@ function DesignCard({ design }: { design: DesignInfo }) {
                 />
               </svg>
             </div>
-            <div className="text-foreground font-medium">Design Review</div>
+            <div className="font-medium text-foreground">Design Review</div>
           </div>
           <div className="rounded-full bg-pink-500/10 px-2 py-1 text-xs font-medium text-pink-500 dark:bg-pink-400/10 dark:text-pink-400">
             {design.research.usability}
           </div>
         </div>
 
-        <div className="text-muted-foreground mb-2 text-sm">
+        <div className="mb-2 text-sm text-muted-foreground">
           <div>{design.project}</div>
           <div
             className={`mt-1 grid items-center gap-2 ${
@@ -951,13 +951,13 @@ function RenderEventCard({
             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
           />
         </svg>
-        <span className="text-foreground font-medium">{event.title}</span>
+        <span className="font-medium text-foreground">{event.title}</span>
       </div>
       {event.notes && (
-        <div className="text-muted-foreground mt-2 text-sm">{event.notes}</div>
+        <div className="mt-2 text-sm text-muted-foreground">{event.notes}</div>
       )}
       {event.location && (
-        <div className="text-muted-foreground mt-2 flex items-center gap-1 text-sm">
+        <div className="mt-2 flex items-center gap-1 text-sm text-muted-foreground">
           <svg
             className="h-4 w-4"
             fill="none"
