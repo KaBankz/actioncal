@@ -14,6 +14,28 @@ const generateRequestSchema = z.object({
         endTime: z.string(),
         type: z.string().optional(),
         notes: z.string().optional(),
+        location: z.string().optional(),
+        flight: z
+          .object({
+            airline: z.string(),
+            flightNumber: z.string(),
+            departure: z.object({
+              airport: z.string(),
+              terminal: z.string(),
+              gate: z.string(),
+              time: z.string(),
+            }),
+            arrival: z.object({
+              airport: z.string(),
+              terminal: z.string(),
+              gate: z.string(),
+              time: z.string(),
+            }),
+            confirmationCode: z.string(),
+            seatNumber: z.string(),
+            boardingGroup: z.string(),
+          })
+          .optional(),
       }),
     ),
     preferences: z
@@ -52,6 +74,26 @@ export async function POST(request: Request) {
               "priority": "high" | "medium" | "low",
               "actionItems": ["string"],
               "relatedEventId": "string",
+              "location": "string",
+              "flight": {
+                "airline": "string",
+                "flightNumber": "string",
+                "departure": {
+                  "airport": "string",
+                  "terminal": "string",
+                  "gate": "string",
+                  "time": "string"
+                },
+                "arrival": {
+                  "airport": "string",
+                  "terminal": "string",
+                  "gate": "string",
+                  "time": "string"
+                },
+                "confirmationCode": "string",
+                "seatNumber": "string",
+                "boardingGroup": "string"
+              },
               "timeBlock": { "start": "string", "end": "string" }
             }
           }
@@ -67,7 +109,12 @@ export async function POST(request: Request) {
       1. Pre-event preparation tasks
       2. During-event focus points
       3. Post-event action items
-      
+      4. Include the event's location if present
+
+      When generating components, make sure to:
+      1. Copy over the location field from the original event data
+      2. Preserve all event metadata including location, time, and notes
+
       For focus time:
       1. Suggest specific time blocking strategies
       2. Recommend preparation steps
