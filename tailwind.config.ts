@@ -1,9 +1,13 @@
+import { heroui } from "@heroui/theme";
 import { type Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 
 export default {
-  content: ["./src/**/*.tsx"],
-  darkMode: "class",
+  content: [
+    "./src/**/*.tsx",
+    "./node_modules/@heroui/theme/dist/components/(card|ripple).js",
+  ],
+  darkMode: ["class", "class"],
   theme: {
     container: {
       center: true,
@@ -47,6 +51,13 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        chart: {
+          "1": "hsl(var(--chart-1))",
+          "2": "hsl(var(--chart-2))",
+          "3": "hsl(var(--chart-3))",
+          "4": "hsl(var(--chart-4))",
+          "5": "hsl(var(--chart-5))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -58,5 +69,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate"), heroui()],
 } satisfies Config;
