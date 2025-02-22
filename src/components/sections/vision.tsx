@@ -84,7 +84,7 @@ export function Vision() {
           >
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/10 to-purple-400/10" />
             <Image
-              src="/morning-focus.png"
+              src="/dash.png"
               alt="AI Calendar Interface"
               width={600}
               height={400}
