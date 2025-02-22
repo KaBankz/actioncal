@@ -10,6 +10,38 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 
+interface YoutubeVideo {
+  title: string;
+  link: string;
+  thumbnail: string;
+}
+
+interface ComponentProps {
+  title: string;
+  description: string;
+  detailedNotes: string;
+  priority: "high" | "medium" | "low";
+  actionItems: string[];
+  relatedEventId: string;
+  timeBlock: { start: string; end: string };
+  youtubeVideos?: YoutubeVideo[];
+}
+
+interface GeneratedComponent {
+  type: string;
+  props: ComponentProps;
+}
+
+interface GeneratedComponents {
+  layout: string;
+  components: GeneratedComponent[];
+  suggestions: {
+    schedule_adjustments: string[];
+    focus_recommendations: string[];
+    meeting_preparations: string[];
+  };
+}
+
 interface GeneratedUIProps {
   calendarData: {
     events: Array<{
@@ -27,26 +59,7 @@ interface GeneratedUIProps {
       };
     };
   };
-  generatedComponents: {
-    layout: string;
-    components: Array<{
-      type: string;
-      props: {
-        title: string;
-        description: string;
-        detailedNotes: string;
-        priority: "high" | "medium" | "low";
-        actionItems: string[];
-        relatedEventId: string;
-        timeBlock: { start: string; end: string };
-      };
-    }>;
-    suggestions: {
-      schedule_adjustments: string[];
-      focus_recommendations: string[];
-      meeting_preparations: string[];
-    };
-  };
+  generatedComponents: GeneratedComponents;
 }
 
 export function GeneratedCalendarView({
@@ -157,10 +170,41 @@ export function GeneratedCalendarView({
                 <div className="mt-4 rounded bg-gray-50 p-4 border">
                   <h4 className="mb-2 font-semibold">Detailed Notes</h4>
                   <p className="text-sm text-gray-700">
-                    {component.props.detailedNotes || "No additional details provided."}
+                    {component.props.detailedNotes ||
+                      "No additional details provided."}
                   </p>
                 </div>
               )}
+
+              {/* YouTube Videos Section */}
+              {component.props.youtubeVideos &&
+                component.props.youtubeVideos.length > 0 && (
+                  <div className="mt-4">
+                    <h4 className="font-semibold mb-2">
+                      Related YouTube Videos
+                    </h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      {component.props.youtubeVideos.map(
+                        (video: YoutubeVideo, vidIndex: number) => (
+                          <a
+                            key={vidIndex}
+                            href={video.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block"
+                          >
+                            <img
+                              src={video.thumbnail}
+                              alt={video.title}
+                              className="rounded"
+                            />
+                            <p className="text-sm mt-1">{video.title}</p>
+                          </a>
+                        )
+                      )}
+                    </div>
+                  </div>
+                )}
             </div>
           </motion.div>
         ))}

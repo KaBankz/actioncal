@@ -10,7 +10,7 @@ interface CalendarEvent {
   id: string;
   start: string;
   summary: string;
-  description : string;
+  description: string;
 }
 
 interface GeneratedEvent {
@@ -71,7 +71,7 @@ export default function CalendarPage() {
     }));
   };
 
-  // Trigger generation of the optimized schedule (including detailed notes).
+  // Trigger generation of the optimized schedule (including detailed notes and YouTube video recommendations).
   const handleGenerate = async () => {
     setIsGenerating(true);
     try {
