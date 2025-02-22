@@ -21,20 +21,16 @@ export default function CalendarPage() {
     try {
       const response = await fetch('/api/calendar');
       const data = await response.json();
-      
-      if (data.error) {
-        if (data.error.includes('No token available')) {
-          // If no token, trigger auth flow
-          const authResponse = await fetch('/api/calendar', {
-            method: 'POST'
-          });
-          const authData = await authResponse.json();
-          if (authData.url) {
-            // Redirect to Google auth
-            window.location.href = authData.url;
-            return;
-          }
+      if (data.error && data.error.includes('No token available')) {
+        // If no token exists, trigger the auth flow by calling POST /api/calendar
+        const authResponse = await fetch('/api/calendar', { method: 'POST' });
+        const authData = await authResponse.json();
+        if (authData.url) {
+          // Redirect to the Google OAuth consent screen
+          window.location.href = authData.url;
+          return;
         }
+      } else if (data.error) {
         setError(data.error);
       } else {
         setEvents(data.events);
@@ -46,12 +42,6 @@ export default function CalendarPage() {
     }
   };
 
-  const refreshEvents = () => {
-    setLoading(true);
-    setError(null);
-    fetchEvents();
-  };
-
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -60,24 +50,17 @@ export default function CalendarPage() {
     );
   }
 
+  if (error) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-red-500">Error: {error}</div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Upcoming Calendar Events</h1>
-        <button 
-          onClick={refreshEvents}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-        >
-          Refresh
-        </button>
-      </div>
-
-      {error ? (
-        <div className="p-4 bg-red-100 text-red-700 rounded mb-4">
-          Error: {error}
-        </div>
-      ) : null}
-
+      <h1 className="text-2xl font-bold mb-6">Upcoming Calendar Events</h1>
       <div className="space-y-4">
         {events.length === 0 ? (
           <p className="text-gray-500">No upcoming events found.</p>
