@@ -57,6 +57,7 @@ export async function GET() {
         id: event.id,
         start: event.start?.dateTime ?? event.start?.date,
         summary: event.summary,
+        description: event.description,
       })) ?? [];
     return NextResponse.json({ events });
   } catch (error) {
