@@ -116,7 +116,7 @@ export function Hero() {
             className="relative mx-auto max-w-6xl rounded-2xl bg-muted p-2 shadow-2xl"
           >
             <Image
-              src="/safari-landing.png"
+              src="/dash.png"
               alt="AI Calendar Interface"
               width={1200}
               height={675}
